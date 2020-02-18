@@ -1,0 +1,39 @@
+page-welcome {
+    .bg-login {
+        /*
+        display: -webkit-flex;
+        -webkit-flex-direction: column;
+        height: 100%;
+        background-image: url("/assets/img/backgrounds/bg-login.jpg");
+        background-repeat: no-repeat;
+        text-align: center;
+        background-size: cover;
+        */
+        background: rgba(212,228,239,1);
+        background: -moz-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(134,174,204,1)));
+        background: -webkit-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+        background: -o-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+        background: -ms-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+        background: radial-gradient(ellipse at center, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );    
+    }
+
+    .login-container{
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;    
+    }
+
+    .logo-content{
+        padding-top:40px;
+        padding-bottom: 20px;
+        text-align: center;
+    }
+
+    .text{
+        font-size: 1.3em;
+        text-align: justify;
+    }
+
+}

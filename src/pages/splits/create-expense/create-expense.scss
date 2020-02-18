@@ -1,0 +1,54 @@
+page-create-expense {
+            /*
+        ion-input {
+            background-color: map-get($colors, light);
+            padding-left: 10px;
+            color: #6c6c6c;
+        }
+ 
+        ion-label {
+            color: #6c6c6c;
+        }
+ 
+        [floating] {
+            margin-left: 10px;
+        }
+ 
+        button {
+            float: right;
+            margin-right: 20px;
+        }
+        */
+
+        [floating] {
+            font-size: 1.2em;
+            color:#008080;
+        }
+
+
+        .label, .label-md {
+            color:#008080;
+        }
+
+        .datetime {
+            padding: 8px 8px 8px 0px;
+        }
+
+        ion-grid, ion-col{
+            padding:0px;
+        }
+        
+        .form-msg-error {
+            padding-left:16px;
+            padding-top:0px;
+            margin-top:0px;
+        
+        }
+
+        .inputValue{
+            background-color: cornsilk;
+            text-align: right;
+            border-radius: 4px;
+        }        
+   
+}

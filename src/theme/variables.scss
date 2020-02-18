@@ -1,0 +1,146 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+// Font path is used to include ionicons,
+// roboto, and noto sans fonts
+$font-path: "../assets/fonts";
+
+
+// The app direction is used to include
+// rtl styles in your app. For more info, please see:
+// http://ionicframework.com/docs/theming/rtl-support/
+$app-direction: ltr;
+
+
+@import "ionic.globals";
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/theming/overriding-ionic-variables/
+
+
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #008080, //#387ef5,
+  secondary:  #badcc3, //32db64,
+  danger:     #f53d3d,
+  light:     (
+    base: #c8e3e3,
+    contrast: #006363
+   ) , //f4f4f4,
+  dark:       #0d3434, //#061818,
+  favorite:   #69BB7B,
+  gray:       #ccc,
+  white: #fff,
+  gray-light: #ebebeb,
+  blue-noon: #01669a,
+  blue-ion: #498afc,
+  blue-super-light : #f3f5f7,
+  yellow: #ffd700
+);
+
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/ionicons/
+
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "roboto";
+@import "noto-sans";
+
+
+// Division Icon 
+// --------------------------------------------------
+
+@font-face {
+  font-family: 'icomoon';
+    src:  url('../assets/fonts/icomoon.eot?6rmo6k');
+    src:  url('../assets/fonts/icomoon.eot?6rmo6k#iefix') format('embedded-opentype'),
+          url('../assets/fonts/icomoon.ttf?6rmo6k') format('truetype'),
+          url('../assets/fonts/icomoon.woff?6rmo6k') format('woff'),
+          url('../assets/fonts/icomoon.svg?6rmo6k#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin makeIcon($arg, $val) {
+  .ion-ios-#{$arg}:before ,
+  .ion-ios-#{$arg}-circle:before ,
+  .ion-ios-#{$arg}-circle-outline:before ,
+  .ion-ios-#{$arg}-outline:before ,
+  .ion-md-#{$arg}:before ,
+  .ion-md-#{$arg}-circle:before ,
+  .ion-md-#{$arg}-circle-outline:before ,
+  .ion-md-#{$arg}-outline:before  {
+    content: $val;
+    font-size: 0.8em;
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;    
+  }
+}
+
+//Icone division customizado
+//Fonts gerado em https://icomoon.io
+@include makeIcon(division, '\e900');
+
+.icon-division:before {
+  content: "\e900";
+}
+
+

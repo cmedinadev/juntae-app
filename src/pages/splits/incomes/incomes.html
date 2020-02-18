@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar position="top" color="blue-noon">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>    
+    <ion-title>Receber pagamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content #content>
+
+    <ion-list class="list">
+      
+      <ion-item-divider color="light">
+        <b>Quem recebe?</b>
+      </ion-item-divider>
+      <ion-item>
+          <ion-avatar item-left>
+              <text-avatar [text]="splitItem.user?.displayName" item-left *ngIf="!splitItem.user?.photoURL"></text-avatar>
+              <img-loader [spinner]="false" useImg [src]="splitItem.user?.photoURL" *ngIf="splitItem.user?.photoURL"></img-loader>
+          </ion-avatar>    
+          {{splitItem.user?.displayName}}
+          <div item-right style="text-align:right">
+            {{splitItem.receita | currencyformat:'R$ ':'symbol' }}
+            <p *ngIf="(splitItem.valor - splitItem.receita) > 0">Falta {{(splitItem.valor - splitItem.receita) | currencyformat:'R$ ':'symbol' }}</p>
+            <p *ngIf="(splitItem.valor - splitItem.receita) < 0">Crédito {{(splitItem.receita - splitItem.valor) | currencyformat:'R$ ':'symbol' }}</p>
+          </div>  
+      </ion-item>
+  
+      <ion-item-divider color="light">
+        <b>Quem paga?</b>
+      </ion-item-divider>
+
+    <ion-item-sliding  *ngFor="let item of splitItem['incomes']; let i = index">
+      <ion-item>
+        <ion-avatar item-left>
+            <text-avatar [text]="item.userWhoPaid?.displayName" item-left *ngIf="!item.userWhoPaid?.photoURL"></text-avatar>
+            <img-loader [spinner]="false" useImg [src]="item.userWhoPaid?.photoURL" *ngIf="item.userWhoPaid?.photoURL"></img-loader>
+        </ion-avatar>    
+        {{item.userWhoPaid?.displayName}}
+        <div item-right>
+          {{item.value | currencyformat:'R$ ':'symbol' }}
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+          <button ion-button color="secondary" (click)="removeIncome(item, i)"><ion-icon name="trash"></ion-icon> Excluir</button>
+      </ion-item-options>              
+    </ion-item-sliding>
+
+    </ion-list>
+    <ion-list no-lines>
+      <ion-item *ngIf="!this.isAdding">
+        <button ion-button color="blue-noon" outline item-right icon-left small (click)="addIncome();">
+           <ion-icon name="add"></ion-icon>
+           Incluir
+        </button>
+      </ion-item>
+      <ion-grid *ngIf="this.isAdding">
+          <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-avatar item-left>
+                        <text-avatar [text]="income.userWhoPaid?.displayName" item-left *ngIf="!income.userWhoPaid?.photoURL"></text-avatar>
+                        <img-loader [spinner]="false" useImg [src]="income.userWhoPaid?.photoURL" *ngIf="income.userWhoPaid?.photoURL"></img-loader>
+                    </ion-avatar>    
+                    {{income.userWhoPaid?.displayName}}
+                </ion-item>
+            </ion-col>
+            <ion-col col-4>
+                <ion-item>
+                    <ion-label stacked>Valor R$</ion-label>
+                    <ion-input type="tel" class="input" required currency #vlIncome="ngModel" [min]="1" [readonly]="readOnly" ngControl="currency" [(ngModel)]="income.value" name="valueFmt"></ion-input>
+                </ion-item>
+            </ion-col>            
+          </ion-row>
+        </ion-grid>
+      <ion-item *ngIf="this.isAdding">
+          <button ion-button color="blue-noon" outline item-right icon-left small (click)="cancelAddIncome();">
+              Cancelar
+          </button>
+          
+        <button ion-button color="blue-noon" outline item-right icon-left small (click)="createIncome();">
+            Gravar
+        </button>
+      </ion-item>
+    </ion-list>
+
+</ion-content>
+

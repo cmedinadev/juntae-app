@@ -1,0 +1,112 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Despesas</ion-title>
+    <ion-buttons right>
+        <button ion-button icon-only clear [disabled]="readOnly" (click)="deleteExpense()"><ion-icon name="trash"></ion-icon></button>
+    </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-content">
+
+
+  <h4 padding>{{title}}</h4>
+
+  <form (ngSubmit)="gravar(form)" #form="ngForm">
+  
+    <ion-list>
+
+    <ion-item>
+      <ion-label>Despesa</ion-label>
+      <ion-input type="text" [readonly]="readOnly" name="description" required #description="ngModel" [(ngModel)]="expense.description"></ion-input>         
+    </ion-item>
+    <div class="form-msg-error" *ngIf="!description.valid && !description.pristine">
+      <p style="color:#ff0000">Informe a descrição da despesa.</p>
+    </div>
+
+    <ion-item>
+      <ion-label>Valor R$</ion-label>
+      <div item-right>
+        <ion-input type="tel" required class="inputValue" text-right [brmasker]="{money: true, thousand: '.', decimalCaracter: ',', decimal: '2'}" #vlDespesa="ngModel" [min]="1" [readonly]="readOnly" placeholder="R$ 0,00" [(ngModel)]="expenseAmount" name="amount"></ion-input>
+      </div>
+    </ion-item>
+    <div class="form-msg-error" *ngIf="(expenseAmount == '0,00' || expenseAmount == '') && !vlDespesa.pristine">
+      <p style="color:#ff0000">Informe o valor da despesa.</p>
+    </div>
+  
+    <ion-item>
+      <ion-label>Data</ion-label>
+      <ion-datetime doneText="Ok" cancelText="Cancelar" displayFormat="DD MMM YYYY" [max]="maxYear" [(ngModel)]="expenseDate" name="expenseDate"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Quem pagou?</ion-label>
+        <ion-select [(ngModel)]="expense.usersWhoPaid" multiple="true" #group="ngModel" required #whoPaid="ngModel" name="usersWhoPaid" okText="Ok" cancelText="Cancelar">
+          <ion-option *ngFor="let item of participantList" value="{{item.uid}}">{{item.displayName}}</ion-option>
+        </ion-select>
+    </ion-item>
+    <div class="form-msg-error" [hidden]="whoPaid.valid || whoPaid.pristine">
+       <p style="color:#ff0000">Informe quem pagou a despesa.</p>
+    </div> 
+
+  <ion-item>
+    <ion-label>Grupo para rateio</ion-label>
+    <ion-select [(ngModel)]="expense.groupWhoSplit" #group="ngModel" required #grupo="ngModel" name="groupWhoSplit" okText="Ok" cancelText="Cancelar">
+      <ion-option *ngFor="let group of groupList" value="{{group.groupId}}">{{group.groupName}}</ion-option>
+    </ion-select>
+  </ion-item>
+   <div class="form-msg-error" [hidden]="grupo.valid || grupo.pristine">
+       <p style="color:#ff0000">Selecione um grupo para rateio da despesa.</p>
+    </div>
+
+    <!--ion-item style="padding-top:10px;">
+      <ion-label style="color:#999">Comprovante</ion-label>
+      <button ion-button item-right outline icon-left (click)="presentOptions($event)" [disabled]="readOnly">
+        <ion-icon name="cloud-upload"></ion-icon>
+        Anexar         
+      </button>    
+    </ion-item-->
+
+    <!--ion-item *ngIf="expense.filename">  
+      <ion-input type="text" [readonly]="readOnly" [(ngModel)]="expense.filename" name="filename"></ion-input>         
+
+      <a href="{{expense.urlPaymVoucher}}" target="_blank" ion-button item-right color="primary" style="width:30px;">
+        <ion-icon name="download"></ion-icon>
+      </a>    
+      
+      <button ion-button item-right color="danger" style="width:30px;" (click)="removerComprovante();" [disabled]="readOnly">
+        <ion-icon name="trash"></ion-icon>
+      </button>    
+    </ion-item>
+
+    
+    <input id="selecao-arquivo" name="selecao" style="display:none" (change)="onFileChange($event)" type="file" accept="image/*" capture-->
+
+    <!--button ion-button>Default</button-->
+    <!--div style="padding-top:50px; padding-right:20px;padding-left:20px;">
+      <div style="float:right">
+      <button ion-button icon-left item-right type="submit" [disabled]="readOnly">
+        <ion-icon name="checkmark" ></ion-icon>
+        Gravar   
+      </button>    
+      </div>
+    </div-->
+  </ion-list>
+
+  <ion-grid class="grid">
+    <ion-row>
+      <ion-col col-5>
+        <button ion-button color="light" block type="button" (click)="dismiss()">Cancelar</button>
+      </ion-col>
+      <ion-col col-2></ion-col>
+      <ion-col col-5>
+        <button ion-button color="blue-noon" type="submit" block [disabled]="readOnly">Gravar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </form>
+
+</ion-content>

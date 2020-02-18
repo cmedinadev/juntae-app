@@ -1,0 +1,47 @@
+page-splits {
+
+
+    ion-grid{
+        padding:0;
+    }
+        
+    ion-item-divider{
+        text-align: center;
+    }
+
+    ion-row{
+        line-height: 20px;
+    }
+    
+    .recebe{
+        color: #01669a;
+    }
+
+    .paga{
+        color:#f53d3d;
+    }
+
+    .grid, .col{
+        padding:0px;
+    }
+
+    .row{
+        border-bottom: 1px solid #ccc;
+    }
+
+    .item-avatar img-loader img
+    {
+        margin: auto;
+    }  
+
+}
+
+.add-popover .popover-wrapper{
+    width:85%;
+}
+
+.add-popover .popover-content{
+    width:85%;
+}
+
+

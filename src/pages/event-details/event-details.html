@@ -1,0 +1,107 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons left *ngIf="showBtnParticipar">
+            <button ion-button icon-only (click)="close(null)"><ion-icon name="close"></ion-icon></button>
+        </ion-buttons>
+  
+        <ion-title>
+          Juntaê
+        </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content class="cards-bg">
+  
+    <ion-card>
+  
+    <div class="pictureBox" *ngIf="evento.picture?.cover || isUserAdmin">
+      <img-loader [spinner]="true" backgroundSize="cover" [src]="evento.picture?.cover ? evento.picture?.cover : 'assets/imgs/placeholder-image.png'"></img-loader>
+      <ion-fab right top *ngIf="isUserAdmin">
+        <button ion-fab mini color="primary" (click)="editImage()">
+          <ion-icon name="camera" color="white"></ion-icon>
+        </button>
+      </ion-fab>      
+    </div>
+
+    <ion-item class="card-title">
+      <ion-icon *ngIf="isUserAdmin" name="md-create" item-right dark (click)="editEvent()"></ion-icon>
+      <h2 class="titulo-evento">{{evento.eventName}}</h2>
+      <p>{{evento.eventDate.toDate() | date:'EEEE, dd MMM yyyy'}} às {{evento.eventDate.toDate() | date:'HH:mm'}}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <p *ngIf="evento.description">{{evento.description}}</p>
+    </ion-card-content>
+    
+    
+    <ion-item class="line" text-wrap>
+      <ion-icon name="pin" item-right large color="dark" (click)="navigate()"></ion-icon>
+      <h2>{{evento.place.name}}</h2>
+      <p *ngIf="evento.place.address != undefined">{{evento.place.address}}</p>
+    </ion-item>
+    
+    <ion-item *ngIf="!evento.private && evento.code">
+      <ion-label>Código do Evento</ion-label>      
+      <ion-chip item-content>
+        <ion-icon name="key"></ion-icon>
+        <ion-label style="font-weight:bold; font-size:14px;">{{evento.code}} &nbsp;&nbsp;</ion-label>
+      </ion-chip>
+    </ion-item>    
+
+  </ion-card>
+  
+  <ion-card *ngIf="!showBtnParticipar">
+    <ion-card-header>
+      Funcionalidades
+    </ion-card-header>
+  
+    <ion-list>
+  
+      <button ion-item (click)="openPage('ParticipantsPage');">
+        <ion-icon name="contacts" item-left color="dark"></ion-icon>
+        Participantes <ion-badge item-right>{{numParticipantes}}</ion-badge>
+      </button>
+  
+      <button ion-item (click)="openPage('ListsPage');">
+        <ion-icon name="list-box" item-left color="dark"></ion-icon>
+        
+        Listas
+      </button>
+  
+      <button ion-item (click)="openPage('SplitsTabPage');">
+        <ion-icon name="division" item-left color="dark"></ion-icon>
+        Rateio
+      </button>
+  
+      <button ion-item (click)="openPage('ChatPage');">
+        <ion-icon name="chatboxes" item-left color="dark"></ion-icon>
+        Mensagens <ion-badge item-right *ngIf="numMensagens > 0">{{numMensagens}}</ion-badge>
+      </button>
+  
+      <!--button ion-item (click)="arquivarEvent()" *ngIf="isUserAdmin">
+        <ion-icon name="archive" item-left color="dark"></ion-icon>
+        Arquivar 
+      </button-->
+
+
+      <button ion-item (click)="exitEvent()" *ngIf="!isUserAdmin">
+        <ion-icon name="exit" item-left color="dark"></ion-icon>
+        Sair do evento 
+      </button>
+  
+      <button ion-item (click)="confirmaExclusaoEvento()" *ngIf="isUserAdmin">
+        <ion-icon name="trash" item-left color="dark"></ion-icon>
+        Excluir evento 
+      </button>
+     
+    </ion-list>
+  
+  </ion-card>
+  
+  <div padding>
+    <button ion-button block *ngIf="showBtnParticipar" (click)="close(true)">Participar</button>
+  </div>
+  
+  <div class="height:20px;"></div>
+  
+  </ion-content>

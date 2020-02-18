@@ -1,0 +1,70 @@
+<ion-header>
+  
+  <ion-navbar color="primary">
+  <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  
+    <ion-title>{{title}}</ion-title>
+
+    <ion-buttons right>
+      <button end ion-button type="submit" [disabled]="!form.valid" (click)="saveItem()" clear>Gravar</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form [formGroup]="form"> 
+    <ion-list>
+      <ion-item-divider>
+      Nome do item
+      </ion-item-divider>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="listItem.itemName" formControlName="itemName"></ion-input>
+    </ion-item>
+
+
+      <ion-item-divider>
+      Embalagem
+      </ion-item-divider>
+    <ion-item>
+      <ion-select [(ngModel)]="listItem.packing" formControlName="packing" class="width-100">
+        <ion-option value="" selected>-Não informado-</ion-option>
+        <ion-option value="cx">Caixa</ion-option>
+        <ion-option value="ct">Cartela</ion-option>
+        <ion-option value="dz">Dúzia</ion-option>
+        <ion-option value="kg">Quilograma</ion-option>
+        <ion-option value="lt">Litro</ion-option>
+        <ion-option value="mt">Metro</ion-option>
+        <ion-option value="pc">Pacote</ion-option>
+        <ion-option value="pa">Par</ion-option>
+        <ion-option value="pç">Peça</ion-option>
+        <ion-option value="rl">Rolo</ion-option>
+        <ion-option value="un">Unidade</ion-option>
+      </ion-select>      
+    </ion-item>
+
+      <ion-item-divider>
+      Quantidades
+      </ion-item-divider>
+
+    <ion-item text-wrap>
+      <ion-label class="label-item">Definir quantidade máxima</ion-label>
+      <ion-checkbox [(ngModel)]="listItem.allowMaxAmount" (ionChange)="selectMaxAmount($event)" formControlName="allowMaxAmount"></ion-checkbox>
+      <ion-badge item-right>{{listItem.maxAmount}}</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-range min="1" max="20" [disabled]="!listItem.allowMaxAmount" [(ngModel)]="listItem.maxAmount" formControlName="maxAmount" color="primary">
+        <ion-label range-left>1</ion-label>
+        <ion-label range-right>20</ion-label>
+      </ion-range>
+    </ion-item>
+    
+
+    </ion-list>
+    </form>
+
+</ion-content>

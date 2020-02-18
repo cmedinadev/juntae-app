@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://www.juntae.com.br", "http://localhost:8080", "http://localhost:8100", "http://192.168.0.105:8100"],
+    "method": ["GET", "POST"],
+    "maxAgeSeconds": 3600
+  }
+]

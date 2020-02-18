@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-navbar color="primary" hideBackButton="true">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="md-close"></ion-icon></button>
+    </ion-buttons>
+    <ion-title *ngIf="action=='insert'">Novo evento</ion-title>
+    <ion-title *ngIf="action=='edit'">Editar evento</ion-title>
+    <ion-buttons right>
+      <button end ion-button type="submit" [disabled]="!form.valid && this.step == 1" (click)="submit()" clear>{{titleAction}}</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cards-bg">
+
+  <form [formGroup]="form" *ngIf="step == 1" padding>
+
+
+    <div class="form-item">
+      <div class="form-label">
+        Nome do evento
+      </div>
+        <ion-item>
+          <ion-input type="text" autocorrect="true" autocomplete="true" spellcheck="true" [(ngModel)]="evento.eventName" formControlName="nomeEvento"></ion-input>
+        </ion-item>
+    </div>
+
+    <div class="form-item">
+      <div class="form-label">
+        Quando?
+      </div>
+      <div class="form-input">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-7>
+              <ion-item>
+                <!--ion-input type="date" [(ngModel)]="dataEvento.date" formControlName="dataEvento"></ion-input-->
+                <ion-datetime doneText="Ok" placeholder="dd/mm/aaaa" cancelText="Cancelar" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="dataEvento.date" formControlName="dataEvento"></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col col-5>
+              <ion-item>
+                 <ion-input  formControlName="timeEvento" class="hotfix" ></ion-input>
+                <ion-datetime doneText="Ok" placeholder="00:00" cancelText="Cancelar" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="dataEvento.time" formControlName="timeEvento"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+
+    <div class="form-item">
+        <div class="form-label">
+            Local do evento
+        </div>
+        <ion-item>
+            <ion-input type="text" autocorrect="true" autocomplete="true" spellcheck="true" [(ngModel)]="evento.place.name" formControlName="local"></ion-input>
+        </ion-item>
+    </div>
+
+    <div class="form-item">
+        <div class="form-label">
+            Endereço do evento
+        </div>
+        <ion-item>
+            <ion-input type="text" autocorrect="true" autocomplete="true" spellcheck="true" [(ngModel)]="evento.place.address" formControlName="endereco"></ion-input>
+        </ion-item>
+    </div>
+
+    <div class="form-item">
+        <div class="form-label">
+          Mais informações
+        </div>
+        <ion-item>
+                <ion-textarea rows="4" autocorrect="true" autocomplete="true" spellcheck="true" [(ngModel)]="evento.description" formControlName="detalhes"></ion-textarea>
+        </ion-item>
+    </div>
+    
+    <div class="form-item">
+        <div class="form-label">
+            Privacidade
+        </div>
+          <ion-list radio-group [(ngModel)]="evento.private"  formControlName="privado" style="margin-bottom:16px">
+                <ion-item style="font-size:1.0em">
+                    <ion-label>Visível para todos os participantes</ion-label>
+                    <ion-radio [value]="false"></ion-radio>
+                  </ion-item>
+                
+                <ion-item style="font-size:1.0em">
+                  <ion-label>Visível apenas para os organizadores</ion-label>
+                  <ion-radio [value]="true"></ion-radio>
+                </ion-item>
+            </ion-list>          
+      </div>
+
+    
+    <ion-item *ngIf="!evento.private">
+        <ion-label>Código do Evento</ion-label>      
+        <ion-chip item-content>
+            <ion-icon name="key"></ion-icon>
+            <ion-label style="font-weight:bold; font-size:14px;">{{evento.code}} &nbsp;&nbsp;</ion-label>
+        </ion-chip>
+    </ion-item>
+
+
+
+  </form>
+
+  <ion-list *ngIf="step == 2">
+
+    <ion-item-divider>
+      Imagem de capa
+    </ion-item-divider>
+
+    <ion-item>
+      <!--img [src]="coverImage" *ngIf="coverImage" style="width:100vw;height:60vw;" /-->
+      <div class="coverBox" *ngIf="coverImage">
+        <img-loader class="coverImage" [spinner]="true" [src]="coverImage"></img-loader>
+      </div>
+      <div *ngIf="!coverImage" class="div-box-cover"></div>
+      <div class="btn-edit">
+        <button ion-fab mini (click)="presentOptions($event, 'cover')"><ion-icon name="camera"></ion-icon></button>
+      </div>
+      <div style="height:25px"></div>        
+      <input id='selecao-arquivo' style="display:none" (change)="onFileChange($event)" type='file' accept="image/*" capture>
+    </ion-item>
+
+    <ion-item-divider>
+      Imagem miniatura
+    </ion-item-divider>
+
+    <ion-item>
+      <div class="center" *ngIf="thumbImage" style="width:100px; height:100px">
+        <img-loader [src]="thumbImage" class="center" useImg></img-loader>
+      </div>
+      <div *ngIf="!thumbImage" class="center" class="div-box-thumb"></div>
+      <div class="btn-edit">
+        <button ion-fab mini (click)="presentOptions($event, 'thumb')"><ion-icon name="camera"></ion-icon></button>
+      </div>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

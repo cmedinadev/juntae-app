@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Pagamentos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="flex-container" *ngIf="!loaded">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="loaded">
+      <ion-item-divider color="light">
+        <b>Total de pagamentos</b>
+        <b item-right>{{total | currencyformat:'R$ ':'symbol'}}&nbsp;&nbsp;</b>
+      </ion-item-divider>
+      <ion-item *ngIf="this.loaded && dataList?.length == 0">
+        <p>Nenhum pagamento encontrado.</p>
+      </ion-item>
+      <ion-item-sliding *ngFor="let data of dataList; let i = index;">
+        <button ion-item (click)="editPayment(data)">
+          <h2>{{mapParticipants[data.fromUser] ? mapParticipants[data.fromUser].displayName : 'Participante excluído'}}
+            <br />&nbsp;
+            <ion-icon name="md-return-right"></ion-icon> &nbsp;{{mapParticipants[data.toUser].displayName}}</h2>
+          <div item-right>
+            <p>{{data?.value | currencyformat:'R$ ':'symbol'}}</p>
+            <p style="padding-top:6px">
+              <i>{{data?.paymentDate | date: 'dd MMM yyyy'}}</i>
+            </p>
+          </div>
+          <!--ion-icon hideWhen="ios" name="ios-arrow-forward" item-right></ion-icon-->
+        </button>
+        <ion-item-options side="right">
+          <button ion-button color="secondary" [disabled]="!canAddPayment()" (click)="deletePayment(data, i)">
+            <ion-icon name="trash"></ion-icon> Excluir</button>
+        </ion-item-options>
+      </ion-item-sliding>
+  </ion-list>
+
+  <div class="ion-item-spacer"></div>
+
+  <ion-fab bottom right *ngIf="canAddPayment()">
+    <button ion-fab (click)="addPayment()">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

@@ -1,0 +1,8 @@
+{
+  "name": "juntae-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "id": "f58a2913"
+}

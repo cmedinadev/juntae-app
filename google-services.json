@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "787681286723",
+    "firebase_url": "https://juntae-app.firebaseio.com",
+    "project_id": "juntae-app",
+    "storage_bucket": "juntae-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787681286723:android:6a82cdd623bdf8f1",
+        "android_client_info": {
+          "package_name": "br.com.juntae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787681286723-pu5ihib59ivb7e3hvdlo96sjavj7v1p8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.juntae",
+            "certificate_hash": "d53c89a4e1b9e75c4bda6abbab7b734c08659735"
+          }
+        },
+        {
+          "client_id": "787681286723-cpa18qto0no6n8bd63v6fm00pn8vu163.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.juntae",
+            "certificate_hash": "97bb366d5bc77356deb61c03ab907d8cd5724f83"
+          }
+        },
+        {
+          "client_id": "787681286723-854busko78upus7m1q1982ohfu633v7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.juntae",
+            "certificate_hash": "e0f1d6d9ef5ecbd2ee3cf50ee709a882f3c5228b"
+          }
+        },
+        {
+          "client_id": "787681286723-7odi00q20ipm78898rmh55tcu3u3vffg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVwN1XOKMRgP1Q7HPpbEeu6kK4jLw6TvE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787681286723-ijt729umvajn27vtbdrh8v5e0avn54lb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.juntae"
+              }
+            },
+            {
+              "client_id": "787681286723-7odi00q20ipm78898rmh55tcu3u3vffg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787681286723:android:8e933af88562cfdb",
+        "android_client_info": {
+          "package_name": "br.com.juntae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787681286723-7odi00q20ipm78898rmh55tcu3u3vffg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVwN1XOKMRgP1Q7HPpbEeu6kK4jLw6TvE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar position="top" color="blue-noon">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>    
+    <ion-title>{{item.itemName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <ion-list style="margin-bottom:0">
+        <ion-item *ngFor="let uid of item.members | keys">
+          <ion-avatar item-left>
+              <text-avatar [text]="participantes[uid]?.displayName" item-left *ngIf="!participantes[uid]?.photoURL"></text-avatar>
+              <img-loader [spinner]="false" useImg [src]="participantes[uid]?.photoURL" *ngIf="participantes[uid]?.photoURL"></img-loader>
+          </ion-avatar>    
+          {{participantes[uid]?.displayName}}
+          <div item-right>
+            <div style="float:left; width:22px" *ngIf="isUserAdmin">
+                <ion-icon name="ios-remove-circle-outline" color="danger" *ngIf="item.members[uid]?.quantity > 0" (click)="decrement(uid)" class="btn-inc"></ion-icon>
+            </div>
+            <div style="float:left; width:40px" class="input-quantity">
+              <span *ngIf="item.members[uid]?.quantity > 0">{{item.members[uid].quantity}}</span>
+            </div>
+            <div style="float:left; width:22px" *ngIf="isUserAdmin || item.config?.allowChooseAmount">
+              <ion-icon name="ios-add-circle-outline" *ngIf="!this.item.allowMaxAmount || this.item.maxAmount >= 1+this.getQuantity()" color="blue-noon" (click)="increment(uid)" class="btn-inc"></ion-icon>
+            </div>            
+          </div>
+        </ion-item>
+
+      <ion-item *ngIf="!item.members || !item.members.length == 0">
+        Nenhuma escolha para este item.
+      </ion-item>
+    </ion-list>
+
+    <ion-item *ngIf="canChoose() && isUserAdmin" no-lines>
+      <button ion-button color="blue-noon" outline item-right icon-left small (click)="addLine();">
+          <ion-icon name="add"></ion-icon>
+          Incluir
+      </button>
+    </ion-item>
+
+    <p *ngIf="!canChoose()" style="text-align: center">Quantidade máxima para o item atingida.</p>    
+
+</ion-content>
+
+<ion-footer *ngIf="isUserAdmin">
+  <ion-toolbar position="bottom" color="blue-super-light">
+    <ion-buttons end>
+      <button ion-button solid color="light" (click)="dismiss(true)">
+          &nbsp;&nbsp;Cancelar&nbsp;&nbsp;
+      </button>
+      &nbsp;
+      <button ion-button solid color="blue-ion" [disabled]="!changed" (click)="gravar()">
+          &nbsp;&nbsp;&nbsp;Gravar&nbsp;&nbsp;&nbsp;
+      </button>
+    </ion-buttons>
+  </ion-toolbar>    
+</ion-footer>

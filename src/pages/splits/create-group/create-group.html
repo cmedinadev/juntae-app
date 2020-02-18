@@ -1,0 +1,43 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+      <ion-title>Grupo para Rateio</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+
+ <ion-list>
+
+    <ion-list-header color="light">
+      <h2>Grupo: {{item.groupName}}</h2>
+      <p class="item-text-wrap"><i>{{ countParticipants(item.participants) }} participante(s)</i></p>
+    </ion-list-header>
+
+    <ion-item *ngIf="numParticipantes === 0">
+      <h2>Nenhum participante neste grupo.</h2>
+    </ion-item>
+
+    <ion-item *ngFor="let p of dataList">
+      <text-avatar [text]="p.displayName" item-left *ngIf="!p.photoURL"></text-avatar>
+      <ion-avatar item-left *ngIf="p.photoURL">
+         <img-loader [spinner]="false" useImg [src]="p.photoURL"></img-loader>
+      </ion-avatar>            
+      <h2>{{p.displayName}}</h2>
+      <h3><i>{{p.uid}}</i></h3>
+      <!-- [disabled]="!isUserAdmin" -->
+      <button ion-button item-right clear [disabled]="!isUserAdmin" icon-only color="danger" (click)="removeItem(p)"><ion-icon name="trash"></ion-icon></button>
+    </ion-item>   
+
+  </ion-list>
+
+  <div class="ion-item-spacer"></div>
+  
+  <ion-fab bottom right *ngIf="canAddParticipant()">
+   <button ion-fab (click)="addParticipant()"><ion-icon name="person-add"></ion-icon></button>
+ </ion-fab>
+ 
+</ion-content>

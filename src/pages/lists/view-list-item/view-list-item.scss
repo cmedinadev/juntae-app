@@ -1,0 +1,50 @@
+page-view-list-item {
+
+    ion-item-sliding .item-inner{
+        min-height: 68px;
+    }
+
+    .chk-light .checkbox-icon{
+        background-color: #79b2b2;
+    }
+
+    .input-quantity{
+        text-align: center;
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+
+    .btn-inc{
+        font-size: 1.6em;
+        cursor:hand;
+    }
+
+    .chkclick .item-cover{
+        width: auto !important;
+    }
+
+    .space{
+        margin: 3px;
+    }
+
+    .rodape{
+        font-style: italic;
+        padding: 10px;
+        font-size:12px;
+    }
+
+    .list-md{
+        border-bottom: 1px solid #dedede
+    }
+
+}
+
+.custom-popover .popover-wrapper{
+    width: 84%;        
+    height: 76%;
+}
+
+.custom-popover .popover-content{
+    width: 84%;        
+    height: 76%;
+}

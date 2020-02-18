@@ -1,0 +1,77 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Rateio - {{eventName}}</ion-title>
+  </ion-navbar>
+ 
+</ion-header>
+
+<ion-content class="content">
+
+  <div>
+
+    <p></p>
+
+    <ion-list no-border>
+
+    <button ion-item (click)="openPage('GroupsPage');">
+      <ion-icon name='people' item-start></ion-icon>
+      Grupos
+      <ion-note item-end>
+      {{countGrupos}}
+      </ion-note>
+    </button>
+
+    </ion-list>
+
+    <p></p>
+
+    <ion-list no-border>
+
+    <button ion-item (click)="openPage('ExpensesPage');">
+      <ion-label>
+        Despesas
+      </ion-label>
+      <ion-icon name='md-log-out' item-start></ion-icon>
+      <ion-note item-end>
+       {{totalDespesas | currencyformat:'R$ ':'symbol'}}
+      </ion-note>
+    </button>
+
+    <!--button ion-item (click)="openPage('IncomesPage');">
+      <ion-icon name='md-log-in' item-start></ion-icon>
+      Depósitos
+      <ion-note item-end>
+       R$ 0,00
+      </ion-note>
+    </button-->
+
+    <button ion-item (click)="openPaymentsPage();">
+      <ion-icon name='md-repeat' item-start></ion-icon>
+      Pagamentos
+      <ion-note item-end>
+      {{totalPagamentos}}
+      </ion-note>
+    </button>
+
+  </ion-list>
+  
+  <p></p>
+
+  <ion-list no-border>
+
+    <button ion-item (click)="openPage('SplitsPage');">
+      <ion-icon name='division' item-start></ion-icon>
+      Rateio
+    </button>
+
+    <button ion-item (click)="openPageEqualize();">
+      <ion-icon name='md-swap' item-start></ion-icon>
+      Equalizar pagamentos
+    </button>
+
+  </ion-list>
+
+  </div>
+
+</ion-content>

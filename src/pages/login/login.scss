@@ -1,0 +1,52 @@
+page-login {
+   
+    ion-item { margin-bottom: 32px !important; background: none}
+
+    .logo-content{
+        padding-top:40px;
+        padding-bottom: 20px;
+        text-align: center;
+        width: 200px;
+    }
+
+    .button-row{
+        text-align: center;
+        padding:20px;
+    }
+
+    .input-tel, .select-country {
+        font-size: 22px;
+        width: 100%;
+        max-width: 100%; 
+    }
+
+    .div-code{
+        text-align: center;
+        padding-top:16px;
+    }
+
+    .div-line {
+        width: 220px;
+        margin: 0 auto;
+        height:10px;
+    }
+
+    .num-line {
+        float:left;
+        margin-right: 4px;
+        margin-left: 4px;
+        height: 2px;
+        width: 27px;
+        background-color: darkgrey;
+    }
+
+    .input-code{
+        width: 220px;
+        font-size: 24px;
+        font-family: monospace;
+        border: none;
+        padding-left: 12px;
+        letter-spacing: 20px !important;
+    }
+
+}

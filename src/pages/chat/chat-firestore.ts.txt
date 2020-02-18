@@ -1,0 +1,301 @@
+import { Component, OnInit, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { UserService } from '../../providers/user-service';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { NotificationService } from "../../providers/notification";
+import { EventService } from "../../providers/event-service";
+import * as firebase from 'firebase/app';
+import { Keyboard } from "@ionic-native/keyboard";
+import { Subscription } from "rxjs/Subscription";
+import { ChatService } from "../../providers/chat-service";
+
+export class Message {
+  _id: string;
+  chatId: string;
+  content: string;
+  createdAt: Date;
+  ownership: string;
+  senderName: string;
+  senderID: string;
+  showName: boolean;
+  showDaySep: boolean;
+
+}
+
+@IonicPage()
+@Component({
+  selector: 'page-chat',
+  templateUrl: 'chat.html',
+  //providers : [NotificationService]
+})
+export class ChatPage implements OnInit {
+  subOnKeyHide: Subscription;
+  subscriptionKeyboard: Subscription;
+  firstKnownKey: any;
+  appElHeight: number;
+  appEl: HTMLElement;
+
+  title: string;
+  //messages: Message[] = [];
+  messages: ChatMessage[] = [];
+  message: string = "";
+  autoScroller: MutationObserver;
+  inc: number = 1;
+  messagesRef;
+  eventoID;
+  evento: any;
+  user;
+  timer;
+  private invitations: any;
+  private registrationIDs: Array<string> = [];
+  scrollOffset = 0;
+  limit = 10;
+  isRefresher = false;
+
+  constructor(public navCtrl: NavController,
+    private keyboard: Keyboard,
+    private af: AngularFireDatabase, private eventosService: EventService,
+    public params: NavParams, private ref: ChangeDetectorRef, private el: ElementRef,
+    private notification: NotificationService,
+    private userService: UserService,
+    private chatService : ChatService,
+    private platform: Platform) {
+    this.evento = params.get('data');
+    this.eventoID = this.evento.eventId;
+    this.invitations = this.evento.invitations;
+    this.title = this.evento.eventName;
+    this.user = this.userService.getUser();
+  }
+
+  ionViewDidLoad() {
+    this.loadRegistrationIDs();
+  }
+
+  ionViewDidLeave() {
+
+  }
+
+  sendMessage(): void {
+    let msg : ChatMessage = {
+      content: this.message,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      senderName: this.user.displayName,
+      senderID: this.user.uid
+    };
+    this.scrollOffset = this.scroller.scrollHeight;
+    //this.messagesRef.push(msg);
+    this.chatService.addMessage(msg);
+    this.sendNotification(msg);
+    this.message = '';
+  }
+
+  ngOnInit() {
+    this.initDatabaseNew();
+    this.autoScroller = this.autoScroll();
+
+    if (this.platform.is("cordova") && this.platform.is('ios')) {
+      let appEl = <HTMLElement>(document.getElementsByTagName('ION-APP')[0]),
+        appElHeight = appEl.clientHeight;
+
+      this.subscriptionKeyboard = this.keyboard.onKeyboardShow().subscribe(data => {
+        const keyHeight = (<any>data).keyboardHeight;
+        appEl.style.height = (appElHeight - keyHeight) + 'px';
+        this.scrollDown();
+      });
+
+      this.subOnKeyHide = this.keyboard.onKeyboardHide().subscribe(data => {
+        appEl.style.height = '100%';
+      });
+
+    }
+  }
+
+  ngOnDestroy() {
+    this.autoScroller.disconnect();
+    if (this.platform.is("cordova") && this.platform.is('ios')) {
+      this.subscriptionKeyboard.unsubscribe();
+      this.subOnKeyHide.unsubscribe();
+    }
+  }
+
+  loadRegistrationIDs() {
+    this.eventosService.getParticipants(this.evento).subscribe(data => {
+      this.registrationIDs = [];
+      data.forEach(user => {
+        if (user.uid != this.user.uid)
+          this.registrationIDs.push(user.registrationId);
+      });
+    });
+  }
+
+  onInputKeypress({ keyCode }: KeyboardEvent): void {
+    if (keyCode == 13 && this.message != '') {
+      this.sendMessage();
+    }
+  }
+
+  private get messagesPageContent(): Element {
+    return this.el.nativeElement.querySelector('.messages-page-content');
+  }
+
+  private get messagesPageFooter(): Element {
+    return this.el.nativeElement.querySelector('.messages-page-footer');
+  }
+
+  private get messagesList(): Element {
+    return this.messagesPageContent.querySelector('.messages');
+  }
+
+  private get scroller(): Element {
+    return this.messagesList.querySelector('.scroll-content');
+  }
+
+  autoScroll(): MutationObserver {
+    const autoScroller = new MutationObserver(this.scrollDown.bind(this));
+    autoScroller.observe(this.messagesList, {
+      childList: true,
+      subtree: true
+    });
+
+    return autoScroller;
+  }
+
+
+  scrollDown(): void {
+    if (!this.isRefresher)
+      this.scroller.scrollTop = this.scroller.scrollHeight;// - this.scrollOffset;
+    else
+      this.isRefresher = false;
+  }
+
+  sendNotification(message: any) {
+    let msg = message.senderName + ": " + message.content;
+    let data = { "title": "Juntaê", "message": msg, "action": "chat", "eventId": this.eventoID, "evento": { eventName: this.title, eventId: this.eventoID, invitations: this.invitations } };
+    this.notification.sendNotification(this.registrationIDs, "Juntaê", msg, data).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  onPullOldMessages(refresher) {
+    this.isRefresher = true;
+    console.log("refresh");
+    let self = this;
+    let lastID = null;
+    let lastDay = null;
+    let arr = [];
+    let setMessage = function (data) {
+      if (!data) {
+        self.isRefresher = false;
+        refresher.complete();
+        return;
+      }
+      let val = data.val();
+      let msg: Message = new Message();
+      clearTimeout(self.timer);
+      msg.content = val.content;
+      msg.createdAt = new Date(val.createdAt);
+      msg.senderName = val.senderName;
+      msg.senderID = val.senderID;
+      if (lastID != val.senderID && val.senderID != self.user.id) {
+        lastID = val.senderID;
+        msg.showName = true;
+      } else {
+        msg.showName = false;
+      }
+      const actualDay = msg.createdAt.getDay() + "-" + msg.createdAt.getMonth();
+      if (lastDay != actualDay) {
+        lastDay = actualDay;
+        msg.showDaySep = true;
+      }
+      msg.ownership = (val.senderID == self.user.uid ? 'mine' : 'other');
+      msg._id = data.key;
+      arr.push(msg);
+      //self.messages.unshift(msg);
+      self.timer = setTimeout(() => {
+        const d1 = arr[arr.length - 1].createdAt;
+        const d2 = self.messages[0].createdAt;
+        if (d1.getDate() == d2.getDate() && d1.getMonth() == d2.getMonth()) {
+          self.messages[0].showDaySep = false;
+        }
+        self.messages = arr.concat(self.messages);
+        refresher.complete();
+        self.ref.detectChanges();
+        //this.isRefresher = false;
+      }, 500);
+
+    }
+
+    //this.messagesRef.off();
+    const lastKnowKey = this.firstKnownKey;
+    this.messagesRef.orderByKey().endAt(this.firstKnownKey).limitToLast(this.limit).on('child_added', function (childSnapshot, prevChildKey) {
+      if (!prevChildKey) {
+        self.firstKnownKey = childSnapshot.key;
+        if (lastKnowKey == childSnapshot.key) {
+          setMessage(null);
+          return;
+        }
+      }
+      if (lastKnowKey != childSnapshot.key)
+        setMessage(childSnapshot);
+    });
+    //this.messagesRef.limitToLast(10).on('child_changed', setMessage);
+  }
+
+  initDataBase(): void {
+    // Reference to the /messages/ database path.
+    this.messagesRef = this.af.database.ref('messages/' + this.eventoID);
+    // Make sure we remove all previous listeners.
+    this.messagesRef.off();
+    let self = this;
+    let lastID = null, lastDay = null;
+    let setMessage = function (data) {
+      let val = data.val();
+      let msg: Message = new Message();
+      clearTimeout(self.timer);
+      msg.content = val.content;
+      msg.createdAt = new Date(val.createdAt);
+      msg.senderName = val.senderName;
+      msg.senderID = val.senderID;
+      if (lastID != val.senderID && val.senderID != self.user.id) {
+        lastID = val.senderID;
+        msg.showName = true;
+      } else {
+        msg.showName = false;
+      }
+      const actualDay = msg.createdAt.getDate() + "-" + msg.createdAt.getMonth();
+      if (lastDay != actualDay) {
+        lastDay = actualDay;
+        msg.showDaySep = true;
+      }
+      msg.ownership = (val.senderID == self.user.uid ? 'mine' : 'other');
+      msg._id = data.key;
+      self.messages = self.messages.concat([msg]);
+      self.timer = setTimeout(() => {
+        self.ref.detectChanges();
+      }, 500);
+
+    }
+
+    this.messagesRef.orderByKey().limitToLast(this.limit).on('child_added', function (childSnapshot, prevChildKey) {
+      if (!self.firstKnownKey) {
+        self.firstKnownKey = childSnapshot.key;
+      }
+      setMessage(childSnapshot); // adds post to a <div>
+    });
+  }
+
+  initDatabaseNew():void{
+    this.chatService.loadMessages(this.eventoID, 0, 3).map(msgs=>{
+        return msgs.map(a => {
+          console.log((a));
+          //console.log(JSON.stringify(a.docChanges()));
+          const data = a.payload.doc.data() as ChatMessage;
+          data.chatId = a.payload.doc.id;
+          return data;
+        });
+    }).subscribe(data=>{
+      this.messages = data;
+    });
+  }
+
+}

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="primary">
+      <ion-title>
+        Participantes
+      </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+ <ion-list>
+
+    <ion-list-header>Participante(s): {{numConvidados}}</ion-list-header>
+    
+    <ion-item *ngFor="let p of participants | async; let i = index" (click)="(isUserAdmin ? presentOptions(p, i) : zoomImage(p.photoURL, p.displayName))"> 
+      <ion-avatar item-left>
+        <!--img img-cache [img-cache-src]="p.photoURL ?  p.photoURL : 'assets/imgs/profile.png'" /-->
+        <text-avatar [text]="p.displayName" item-left *ngIf="!p.photoURL"></text-avatar>
+        <img-loader [spinner]="false" useImg [src]="p.photoURL" *ngIf="p.photoURL"></img-loader>
+      </ion-avatar>    
+      <h2>{{p.displayName}}</h2>
+      <h3><i>{{p.phoneNumber}}</i></h3>
+      <div style="font-size:0.7em;color:red" item-right *ngIf="p.isAdministrator">organizador</div>
+    </ion-item>
+
+  </ion-list>
+
+  <div class="ion-item-spacer"></div>
+  
+  <ion-fab bottom right>
+   <button ion-fab [disabled]="!isUserAdmin" (click)="showContacts()"><ion-icon name="add"></ion-icon></button>
+ </ion-fab>
+
+</ion-content>

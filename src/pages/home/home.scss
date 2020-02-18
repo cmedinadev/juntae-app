@@ -1,0 +1,32 @@
+page-home {
+    .titulo-evento{
+        font-size: 1.0em;
+        font-weight: 500;
+        color: color($colors, primary, base);
+
+    }
+
+    .line{
+        border-top:1px solid #e1e1e1;
+    }
+
+    .segment-ios{
+        padding-left:4px;
+        padding-right:4px;
+    }
+
+    .toolbar-ios {
+        .segment-button{
+            max-width:none;
+        }
+    } 
+
+    .card-content-md, .card-content-ios{
+        padding:0;
+    }
+
+    .button-md {
+        text-transform: none;
+    }
+
+}

@@ -1,0 +1,17 @@
+page-lists {
+    .title{
+        font-size: 1.8rem;
+        font-weight: 700px;
+        color: color($colors, blue-noon, base);
+    }
+
+    .card-content{
+        padding:0;
+    }
+
+    .btn-icon{
+        width:30px;
+        height:30px;
+        line-height: 30px;
+    }
+}

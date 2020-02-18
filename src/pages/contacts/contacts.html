@@ -1,0 +1,49 @@
+<ion-header>
+    
+      <ion-navbar color="primary">
+    
+        <ion-buttons left>
+          <button ion-button icon-only (click)="dismiss(false, null)"><ion-icon name="close"></ion-icon></button>
+        </ion-buttons>
+        
+        <ion-title>Contatos</ion-title>
+    
+        <ion-buttons end>
+
+          <button ion-button icon-only (click)="addContact()" *ngIf="tipoContato == 'phone'">
+            <ion-icon name="person-add"></ion-icon>
+          </button>
+          
+        </ion-buttons>
+    
+      </ion-navbar>
+    
+      <ion-toolbar>
+        <ion-searchbar placeholder="Pesquisa" [formControl]="searchControl" (ionClear)="onCancel($event)"></ion-searchbar>
+      </ion-toolbar>
+    
+    
+    </ion-header>
+    
+    
+    <ion-content>
+      
+      <ion-list *ngIf="!hideList" [virtualScroll]="items" approxItemHeight="40px">
+        <ion-item *virtualItem="let item">
+          <ion-checkbox color="primary" [(ngModel)]="item.checked" (click)="selectContact(item.checked)"></ion-checkbox>
+          <ion-label>
+          <h2>{{item.displayName}}</h2>
+          <p>{{item.contact}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer no-shadow>
+      <ion-toolbar style="text-align:center">
+          <button ion-button primary  [disabled]="countSelected == 0" (click)="addParticipants()">
+            <ion-icon name="checkmark"></ion-icon> 
+             &nbsp;Adicionar
+          </button>
+      </ion-toolbar>
+    </ion-footer>

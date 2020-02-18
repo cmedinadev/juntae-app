@@ -1,0 +1,152 @@
+page-event-form {
+
+    input[type="date"] {
+        background-color: transparent;
+        border: none;
+        text-align: center;
+        font-size:1.2em;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      input[type="date"] .input-cover {
+        z-index: 0;
+      }
+    
+      input::-webkit-calendar-picker-indicator{
+          display: none;
+      }
+      input[type=date]::-webkit-inner-spin-button, 
+      input[type=date]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+      }
+    
+      ion-datetime{
+        font-size:1.2em;
+      }
+     
+      .datetime-md, .datetime-ios {
+        padding: 6px 8px 0px 16px;
+      }
+      
+      input[type="text"] {
+        font-size:1.2em;
+        margin-left: 6px;
+      }
+      
+      /*ion-textarea{
+        margin-top:-10px;
+        font-size:1.2em;
+        margin-left: 6px;        
+      }*/
+
+      .list-header-md, .list-md ion-item-divider {
+        border-color: #c8c7cc;
+        background-color: #efeff4;
+      }
+    
+      .btn-overlap{
+        top:-34px;
+        position: relative;
+        float:right;
+        background-color: #e1e1e1; 
+      }
+    
+      .btn-overlap .item-button{
+        color: black;
+      }
+    
+      .btn-edit{
+          position: relative;
+          top:-30px;
+          margin-left: auto;
+          margin-right: auto;
+          display: block;
+          width: 40px; 
+          height: 40px;
+          line-height: 40px;
+      }
+    
+      .fab[mini] {
+          margin: 0px 15px 0px 0px !important;
+      }
+    
+    .center{
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }  
+
+    .div-box-cover{
+      width:100%;
+      height: 60vh;
+      border: 1px solid #a1e9e9;
+      display: table;
+      background-color: aliceblue;
+    }
+
+    .div-box-cover:after {
+      content: "Imagem de Capa";
+      text-align:center;
+      display: table-cell; 
+      vertical-align: middle;
+    }
+
+    .div-box-thumb{
+      margin: 0 auto;
+      height: 100px;
+      width: 100px;
+      border: 1px solid #a1e9e9;
+      display: table;
+      background-color: aliceblue;
+    }
+
+    .div-box-thumb:after {
+      content: "Miniatura";
+      text-align:center;
+      display: table-cell; 
+      vertical-align: middle;
+  }
+
+  .coverBox{
+    width: 100%;
+    height: 60vw;
+    background: aliceblue; 
+    border: 1px solid #a1e9e9;
+    
+  }
+
+  .coverImage{
+    background-position: center;
+  }
+
+  .key{
+    text-align:center;
+    padding-top:10px;
+  }
+
+  .form-item {
+    padding-bottom: 16px;
+  }
+
+  .form-label{
+    font-size: 1.0em;
+    color: #0d3434;
+    padding-bottom:6px;
+  }
+
+  .form-input{
+    border-radius: 6px;
+    background-color: #fff;
+  }
+
+  .grid{
+    padding: 0;
+  }
+
+  .hotfix{
+    display:none;
+  }
+
+}

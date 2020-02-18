@@ -1,0 +1,51 @@
+<ion-header>
+ 
+    <ion-navbar color="primary">
+      <ion-buttons left>
+        <button ion-button icon-only clear (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+      </ion-buttons>
+      
+      <ion-title>Adicionar participantes</ion-title>
+    
+      <ion-buttons right>
+        <button ion-button icon-only clear (click)="add()"><ion-icon name="checkmark"></ion-icon></button>
+      </ion-buttons>
+    
+    </ion-navbar>
+
+
+</ion-header>
+
+
+<ion-content>
+
+ <ion-list>
+
+    <ion-list-header color="light">
+      <ion-label>
+        <b>Participantes</b>          
+      </ion-label>
+      <ion-checkbox item-right style="margin-right:18px;" (click)="checkAll()" [(ngModel)]="opCheckAll"></ion-checkbox>
+    </ion-list-header>
+
+      <ion-item *ngFor="let p of dataList;">
+
+      <text-avatar [text]="p.displayName" item-left *ngIf="!p.photoURL"></text-avatar>
+      
+      <ion-avatar item-left *ngIf="p.photoURL != undefined">
+         <img-loader [spinner]="false" useImg [src]="p.photoURL ?  p.photoURL : 'assets/imgs/profile.png'"></img-loader>
+      </ion-avatar>            
+
+        <ion-label>
+          <h2>{{p.displayName}}</h2>
+          <h3><i>{{p.uid}}</i></h3>
+        </ion-label>
+
+        
+        <ion-checkbox item-right [(ngModel)]="p.checked"></ion-checkbox>
+
+      </ion-item>
+
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,60 @@
+page-perfil {
+
+.btn-edit{
+    position: relative;
+    top:-30px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 40px; 
+    height: 40px;
+    line-height: 40px;
+}
+
+.fab[mini] {
+    margin: 0px 15px 0px 0px !important;
+}
+    
+.center{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.avatar img {
+    width: 150px;  
+    height : 150px;  
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.bg-login {
+    background: rgba(212,228,239,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(134,174,204,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );    
+}
+
+/* Esconde o input */
+input[type='file'] {
+  display: none
+}
+
+/* Aparência que terá o seletor de arquivo */
+.label-btn {
+  background-color: #3498db;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  margin: 10px;
+  padding: 6px 20px
+}
+}

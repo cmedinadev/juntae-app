@@ -1,0 +1,128 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"> </ion-icon>
+    </button>
+    <ion-title>
+      Juntaê
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view" color="primary">
+      <ion-segment-button value="next">
+        Eventos
+      </ion-segment-button>
+      <ion-segment-button value="activities" (click)="loadActivities()">
+        Atividades
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cards-bg">
+
+  <!--ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher-->
+
+  <div>
+
+    <div [ngSwitch]="view">
+      <div *ngSwitchCase="'next'">
+        <!--ion-list-->
+        <div *ngFor="let evento of events | async; let i = index">
+          <ion-item-divider *ngIf="showDivider[i]" color="gray-light">
+            <p style="color:#0d3434">{{evento.eventDate.toDate() | date:'MMMM/yyyy'}}</p>
+          </ion-item-divider>
+          <ion-card>
+            <ion-card-header style="padding: 10px 10px 0 16px; font-size:1.7rem" color="primary"
+              (click)="openEvento(evento)">
+              {{evento.eventName}}
+            </ion-card-header>
+            <ion-card-content>
+              <button ion-item (click)="openEvento(evento)">
+                <ion-thumbnail item-left *ngIf="evento.picture?.thumbnail">
+                  <img-loader [src]="evento.picture.thumbnail" useImg></img-loader>
+                </ion-thumbnail>
+                <ion-icon item-right name="star" *ngIf="userAdmin[i]" color="yellow"></ion-icon>
+                <p *ngIf="evento.eventDate" style="padding-bottom:4px">
+                  {{evento?.eventDate.toDate() | date:'EEE, dd MMM yyyy'}} às
+                  {{evento?.eventDate.toDate() | date:'HH:mm'}}</p>
+                <p *ngIf="evento.place">{{evento.place.name}}</p>
+              </button>
+            </ion-card-content>
+
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 33%">
+                  <button ion-button icon-start small color="primary" clear
+                    (click)="openPage('ParticipantsPage', evento)">
+                    <ion-icon name="contacts"></ion-icon>
+                    Participantes
+                  </button>
+                </td>
+                <td style="width: 33%; text-align: center">
+                  <button ion-button icon-start small clear color="primary" (click)="openPage('ListsPage', evento)">
+                    <ion-icon name="list-box"></ion-icon>
+                    Listas
+                  </button>
+                </td>
+                <td style="width: 34%; text-align: right"> <button item-right icon-start small ion-button color="primary" clear
+                  (click)="openPage('SplitsTabPage', evento)">
+                  <ion-icon name="division"></ion-icon>
+                  Rateios
+                </button></td>
+              </tr>
+            </table>
+          
+          </ion-card>
+
+        </div>
+        <!--/ion-list-->
+        <div *ngIf="noEvents">
+          <p></p>
+          <ion-card>
+            <ion-card-content padding>
+              <br />
+              <h2>Você ainda não participa de nenhum evento.</h2>
+              <br />
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'activities'">
+        <ion-list>
+          <ion-item *ngFor="let item of listActivities;">
+            <h2 class="titulo-evento">{{item.eventName}}</h2>
+            <p text-wrap>
+              <ion-icon [name]="item.icon" item-left color="gray"></ion-icon> {{item.msg}}
+            </p>
+            <p style="font-size:0.8em;">{{item?.createdAt | date:'dd MMMM yyyy HH:mm'}}</p>
+          </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
+    </div>
+  </div>
+
+  <div class="ion-item-spacer"></div>
+
+  <ion-fab bottom right *ngIf="view == 'next'">
+    <button ion-fab (click)="newEvent()">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>
+
+<!--ion-footer no-shadow>
+  <ion-toolbar>
+    <button ion-button clear center (click)="showPromptCode();">
+      Recebeu um Código? Clique Aqui!
+    </button>
+  </ion-toolbar>
+</ion-footer-->

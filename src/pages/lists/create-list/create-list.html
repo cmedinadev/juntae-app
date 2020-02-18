@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-navbar color="primary">
+
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-content">
+
+
+
+  <ion-list>
+
+    <ion-item-divider>
+      Nome da lista
+    </ion-item-divider>
+
+
+    <ion-item style="margin-top:10px; margin-bottom:10px">
+      <ion-input type="text" [(ngModel)]="item.listName" maxlength="50"></ion-input>
+    </ion-item>
+
+    <ion-item-divider>
+        Descrição 
+    </ion-item-divider>
+  
+  
+      <ion-item style="margin-top:10px; margin-bottom:10px">
+        <ion-textarea rows="3" [(ngModel)]="item.description" maxlength="200"></ion-textarea>
+      </ion-item>
+
+    <ion-item-divider>
+      Opções
+    </ion-item-divider>
+
+    <ion-item text-wrap>
+      <ion-label class="label-item">Permitir a escolha de quantidades</ion-label>
+      <ion-checkbox [(ngModel)]="item.config.allowChooseAmount"></ion-checkbox>
+    </ion-item>
+
+
+    <ion-item text-wrap>
+      <ion-label class="label-item">Permitir aos participantes alterarem a lista</ion-label>
+      <ion-checkbox [(ngModel)]="item.config.allowChangeList"></ion-checkbox>
+    </ion-item>
+
+    <ion-item text-wrap>
+        <ion-label class="label-item">Ocultar a escolha dos participantes</ion-label>
+        <ion-checkbox [(ngModel)]="item.config.hideChoicePartic"></ion-checkbox>
+    </ion-item>
+  
+
+  </ion-list>
+
+  <ion-grid class="grid">
+      <ion-row>
+        <ion-col col-5>
+          <button ion-button color="light" block type="button" (click)="dismiss()">Cancelar</button>
+        </ion-col>
+        <ion-col col-2></ion-col>
+        <ion-col col-5>
+          <button ion-button color="blue-noon" [disabled]="item.listName == ''" (click)="gravar()" block>{{btnLabel}}</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+</ion-content>

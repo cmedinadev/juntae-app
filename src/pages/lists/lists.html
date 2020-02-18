@@ -1,0 +1,101 @@
+<ion-header>
+  
+    <ion-navbar color="primary">
+      <ion-title>Listas - {{evento.eventName}}</ion-title>
+    </ion-navbar>
+
+  </ion-header>
+  
+  <ion-content  class="cards-bg">
+  
+    <div style="padding:10px;">
+      <ion-segment [(ngModel)]="view" (click)="changeView();">
+        <ion-segment-button value="view-list">
+          Listas
+        </ion-segment-button>
+        <ion-segment-button value="view-select-list-item">
+          Itens Escolhidos
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  
+    <div [ngSwitch]="view">
+  
+      <div *ngSwitchCase="'view-list'">
+  
+        <!--ion-list-->
+          <ion-item *ngIf="noResult">
+            <p>Nenhuma lista criada.</p>
+          </ion-item>
+
+
+          <ion-card *ngFor="let data of subscriptionLists | async" style="margin-bottom:20px">
+
+            <ion-card-content class="card-content">          
+              <button ion-item (click)="navigationToItem(data)" text-wrap>
+                  <div class="title">
+                      {{data.listName}}
+                  </div>   
+                  <p *ngIf="data.description" style="padding-top:10px">
+                  {{data.description}}</p>
+                  <ion-icon name="ios-arrow-forward" color="gray" item-right></ion-icon>
+              </button>
+            </ion-card-content>
+            <hr />
+            <table style="width: 100%">
+                <tr>
+                  <td style="width: 50%; text-align: center">
+                    <button ion-button icon-start small color="primary" clear
+                      (click)="editList($event, data)">
+                      <ion-icon name="md-create"></ion-icon>
+                      Editar
+                    </button>
+                  </td>
+                  <td style="width: 50%; text-align: center"> 
+                    <button item-right icon-start small ion-button color="primary" clear
+                    (click)="removeList($event, data)">
+                    <ion-icon name="trash"></ion-icon>
+                    Excluir
+                  </button></td>
+                </tr>
+              </table>
+         </ion-card>
+      </div>
+  
+      <div *ngSwitchCase="'view-select-list-item'">
+      <ion-list>
+        <ion-item-group class="lista" *ngIf="dataSelectedList?.length > 0;else noSelectedItems">
+          <div *ngFor="let list of dataSelectedList;">
+            <ion-item-divider color="light"><b>{{list.listName}}</b></ion-item-divider>
+            <ion-item-sliding *ngFor="let item of list.items; let i = index">
+              <ion-item text-wrap>
+                <h2>{{item.itemName}} - 
+                    <span *ngIf="item.members[uid].quantity">Quant. {{item.members[uid].quantity}}</span> 
+                    <span *ngIf="item.packing">{{item.packing}}</span>  
+                </h2>
+              </ion-item>
+              <ion-item-options side="right">
+                <button ion-button color="danger" (click)="removeSelItem(list.listId, item)"><ion-icon name="trash"></ion-icon> Excluir</button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </ion-item-group>
+        <ng-template #noSelectedItems>
+          <ion-item>
+            <p>Nenhum item escolhido.</p>
+          </ion-item>
+        </ng-template>       
+      </ion-list>
+      </div>
+
+      <div class="ion-item-spacer" *ngIf="view=='view-list' && isUserAdmin"></div>
+  
+      <ion-fab bottom right *ngIf="view=='view-list' && isUserAdmin">
+        <button ion-fab (click)="createList()"><ion-icon name="md-add"></ion-icon></button>
+      </ion-fab>
+  
+  
+    </div>
+  
+  </ion-content>
+  

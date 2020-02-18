@@ -1,0 +1,28 @@
+<ion-menu [content]="content">
+    <ion-header ion-navbar>
+        <ion-toolbar color="primary">
+        <ion-title>Juntaê</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <button menuClose ion-item (click)="openPerfil()" color="light" class="item-perfil">
+                <ion-avatar item-left>
+                    <img-loader *ngIf="userProvider.getUser()?.photoURL" [spinner]="false" useImg [src]="userProvider.getUser().photoURL"></img-loader>
+                    <img *ngIf="!userProvider.getUser()?.photoURL" src="assets/imgs/profile.png" /><!--lazy-load-->
+                </ion-avatar>
+                {{userProvider.getUser()?.displayName}}
+            </button>
+            <button menuClose ion-item *ngFor="let menu of menuService.menu$ | async" (click)="menu.action($event)" [ngStyle]="{color:'rgba(0,0,0,0.8)'}" class="item-perfil">
+                <ion-icon *ngIf="menu.iconName" [name]="menu.iconName"></ion-icon>
+                <span style="margin-left:10px">{{menu.itemName}}</span>                
+                
+            </button>
+            <button menuClose ion-item [ngStyle]="{color:'rgba(0,0,0,0.8)'}" (click)="logout()" class="item-perfil">
+                <ion-icon name="log-out"></ion-icon>
+                <span style="margin-left:10px">Sair</span>
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-nav #myNav [root]="rootPage" #content></ion-nav>

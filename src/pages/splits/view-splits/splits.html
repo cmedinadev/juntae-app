@@ -1,0 +1,158 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Rateio</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="content">
+
+  <div class="flex-container" *ngIf="!loaded">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="loaded">
+
+    <div *ngIf="!equalize">
+
+      <ion-item-group class="lista">
+        <ion-item-divider color="light">
+          <b>Despesa por participante</b>
+        </ion-item-divider>
+      </ion-item-group>
+
+
+      <ion-list>
+        <div *ngIf="listDepesasParticips?.length > 0; else noExpense">
+          <ion-item *ngFor="let item of listDepesasParticips">
+            <text-avatar [text]="item.user?.displayName" item-left *ngIf="item.user?.photoURL == undefined"></text-avatar>
+            <ion-avatar item-left *ngIf="item.user?.photoURL != undefined">
+              <img-loader [spinner]="false" useImg [src]="item.user.photoURL"></img-loader>
+            </ion-avatar>
+            <h2>{{item.user?.displayName}}</h2>
+            <h3 item-right>{{item.despesa | currencyformat:'R$ ':'symbol' }}</h3>
+          </ion-item>
+        </div>
+        <ng-template #noExpense>
+          <ion-item>
+            <h2>Nenhuma despesa cadastrada.</h2>
+          </ion-item>
+        </ng-template>
+      </ion-list>
+
+      <p></p>
+
+      <!-- Grupos para rateio -->
+
+      <ion-item-group class="lista">
+        <ion-item-divider color="light">
+          <b>Rateio por grupo</b>
+        </ion-item-divider>
+      </ion-item-group>
+
+      <ion-list>
+        <div *ngIf="mapGroupList && (mapGroupList | keys).length > 0; else noGroups">
+          <ion-item *ngFor="let key of mapGroupList | keys">
+            <h2>Grupo: {{mapGroupList[key].groupName}}</h2>
+            <p>Participantes: {{countParticipants(mapGroupList[key].participants)}}</p>
+            <h3 item-right>Valor
+              <br />{{mapGroupList[key].amountPerPerson | currencyformat:'R$ ':'symbol' }}</h3>
+          </ion-item>
+        </div>
+        <ng-template #noGroups>
+          <ion-item>
+            <h2>Nenhum grupo cadastrado.</h2>
+          </ion-item>
+        </ng-template>
+      </ion-list>
+
+      <p></p>
+
+      <!-- Rateio por participante -->
+      <div *ngIf="listRateioParticips?.length > 0">
+        <ion-item-group class="lista">
+          <ion-item-divider color="light">
+            <b>Rateio por participante</b>
+          </ion-item-divider>
+        </ion-item-group>
+
+
+        <ion-list>
+          <ion-item *ngFor="let item of listRateioParticips">
+            <text-avatar [text]="item.user?.displayName" item-left *ngIf="item.user?.photoURL == undefined"></text-avatar>
+            <ion-avatar item-left *ngIf="item.user?.photoURL != undefined">
+              <img-loader [spinner]="false" useImg [src]="item.user.photoURL"></img-loader>
+            </ion-avatar>
+            <h3> {{item.user?.displayName}}</h3>
+
+            <div item-end style="font-size:1.4rem">
+              <span style="color:#01669a" *ngIf="item.situacao == 'receber'">Recebe {{item.valor | currencyformat:'R$ ':'symbol' }}</span>
+              <span style="color:#f53d3d" *ngIf="item.situacao == 'pagar'">Paga {{item.valor | currencyformat:'R$ ':'symbol' }}</span>
+            </div>
+
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    <div *ngIf="equalize">
+
+
+      <ion-item-group class="lista">
+        <ion-item-divider color="light">
+          <b>Equalização de Pagamentos</b>
+        </ion-item-divider>
+      </ion-item-group>
+
+      <!-- Rateio por participante -->
+      <div *ngIf="!pagamentos || pagamentos?.length == 0">
+        <ion-card>
+          <ion-card-content>Seus pagamentos estão equalizados.</ion-card-content>
+        </ion-card>
+      </div>
+      <div *ngIf="pagamentos?.length > 0">
+
+        <ion-grid *ngFor="let item of pagamentos">
+
+          <ion-row *ngFor="let income of item.equalizations">
+            <ion-col col-5>
+              <ion-item no-lines>
+                <ion-avatar class="item-avatar">
+                  <div style="margin:auto; width:40px;" *ngIf="!mapParticipList[income.fromUser].user.photoURL">
+                    <text-avatar [text]="mapParticipList[income.fromUser].user.displayName"></text-avatar>
+                  </div>
+                  <img-loader [spinner]="false" useImg [src]="mapParticipList[income.fromUser].user.photoURL" *ngIf="mapParticipList[income.fromUser].user.photoURL"></img-loader>
+                </ion-avatar>
+              </ion-item>
+              <div style="text-align:center">
+                {{mapParticipList[income.fromUser].user.displayName}}
+              </div>
+            </ion-col>
+            <ion-col col-2>
+              <div style="text-align:center;padding-top:10px;">
+                <span style="font-size:1.4rem;">{{income.value | currencyformat:'R$ ':'symbol' }}</span>
+                <br />
+                <ion-icon style="font-size:3rem;" name="md-arrow-round-forward" color="blue-noon"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col col-5>
+              <ion-item no-lines>
+                <ion-avatar class="item-avatar">
+                  <div style="margin:auto; width:40px;" *ngIf="!mapParticipList[income.toUser].user.photoURL">
+                    <text-avatar [text]="mapParticipList[income.toUser].user.displayName"></text-avatar>
+                  </div>
+                  <img-loader [spinner]="false" useImg [src]="mapParticipList[income.toUser].user.photoURL" *ngIf="mapParticipList[income.toUser].user.photoURL"></img-loader>
+                </ion-avatar>
+              </ion-item>
+              <div style="text-align:center">
+                {{mapParticipList[income.toUser].user.displayName}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

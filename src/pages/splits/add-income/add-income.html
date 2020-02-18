@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-toolbar position="top" color="blue-noon">
+    <ion-title>Pagamentos</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+    <div style="height:10px;"></div>
+  
+    <ion-grid>
+      
+      <ion-row *ngFor="let income of item.incomes">
+        <ion-col col-5>
+          <ion-item no-lines>
+              <ion-avatar class="item-avatar">
+                  <div style="margin:auto; width:40px;" *ngIf="!item.user?.photoURL"><text-avatar [text]="item.user?.displayName"></text-avatar></div>
+                  <img-loader [spinner]="false" useImg [src]="item.user?.photoURL" *ngIf="item.user?.photoURL"></img-loader>
+              </ion-avatar>    
+            </ion-item>
+            <div style="text-align:center">
+              {{item.user?.displayName}}
+            </div>
+        </ion-col>
+        <ion-col col-2>
+          <div style="text-align:center;padding-top:10px;">
+            <span style="font-size:1.4rem;">{{income.value | currencyformat:'R$ ':'symbol' }}</span><br />
+            <ion-icon style="font-size:3rem;" name="md-arrow-round-forward"color="blue-noon"></ion-icon>
+          </div>
+        </ion-col>
+        <ion-col col-5>
+            <ion-item no-lines>
+                <ion-avatar class="item-avatar">
+                    <div style="margin:auto; width:40px;" *ngIf="!mapParticipants[income.toUser].user.photoURL"><text-avatar [text]="mapParticipants[income.toUser].user.displayName"></text-avatar></div>
+                    <img-loader [spinner]="false" useImg [src]="mapParticipants[income.toUser].user.photoURL" *ngIf="mapParticipants[income.toUser].user.photoURL"></img-loader>
+                </ion-avatar>    
+              </ion-item>
+              <div style="text-align:center">
+                {{mapParticipants[income.toUser].user.displayName}}
+              </div>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <div style="height:10px;"></div>
+  
+</ion-content>

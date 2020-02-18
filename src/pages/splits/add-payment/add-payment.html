@@ -1,0 +1,72 @@
+<ion-header>
+ 
+  <ion-navbar color="primary">
+    <ion-title>Pagamentos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-content">
+
+  <h4 padding>{{title}}</h4>
+
+  <form (ngSubmit)="gravar(form)" #form="ngForm">
+  
+  <ion-list>
+
+    <ion-item>
+        <ion-label>Valor</ion-label>
+        <ion-input type="tel" text-right required [(ngModel)]="payment.value" #vlPag="ngModel" name="valor" placeholder="R$ 0,00" [brmasker]="{money: true, thousand: '.', decimalCaracter: ',', decimal: '2'}" item-right class="inputValue"></ion-input>
+    </ion-item>
+    <div class="form-msg-error" *ngIf="(!payment.value || payment.value == '0' || payment.value == '0,00' || payment.value == '') && !vlPag.pristine">
+      <p style="color:#ff0000">Informe o valor do pagamento</p>
+    </div>    
+
+    <ion-item>
+      <ion-label>Quem pagou?</ion-label>
+      <ion-select [(ngModel)]="payment.fromUser" required name="fromUser" #fromUser="ngModel" submitText="Ok" cancelText="Cancelar" [selectOptions]="selectOptionsPagou">
+        <ion-option *ngFor="let key of participantes | keys" [value]="key">{{participantes[key].displayName}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="form-msg-error" *ngIf="!fromUser.valid && !fromUser.pristine">
+      <p style="color:#ff0000">Campo obrigatório</p>
+    </div>    
+
+    <ion-item>
+        <ion-label>Quem recebeu?</ion-label>
+        <ion-select [(ngModel)]="payment.toUser" required name="toUser" #toUser="ngModel" submitText="Ok" cancelText="Cancelar" [selectOptions]="selectOptionsRecebeu">
+          <ion-option *ngFor="let key of participantes | keys" [value]="key">{{participantes[key].displayName}}</ion-option>
+        </ion-select>
+    </ion-item>
+    <div class="form-msg-error" *ngIf="!toUser.valid && !toUser.pristine">
+      <p style="color:#ff0000">Campo obrigatório</p>
+    </div>    
+
+
+    <ion-item>
+      <ion-label>Data</ion-label>
+      <ion-datetime doneText="Ok" cancelText="Cancelar" required #dtPag="ngModel" displayFormat="DD MMM YYYY" [max]="maxYear" [(ngModel)]="payment.paymentDate" name="paymentDate"></ion-datetime>
+    </ion-item>
+    <div class="form-msg-error" *ngIf="!dtPag.valid && !dtPag.pristine">
+      <p style="color:#ff0000">Campo obrigatório</p>
+    </div>    
+
+
+  </ion-list>
+
+  <ion-grid class="grid">
+    <ion-row>
+      <ion-col col-5>
+        <button ion-button color="light" block type="button" (click)="cancelar()">Cancelar</button>
+      </ion-col>
+      <ion-col col-2></ion-col>
+      <ion-col col-5>
+        <button ion-button color="blue-noon" type="submit" block>Gravar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</form>
+
+</ion-content>

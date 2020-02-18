@@ -1,0 +1,59 @@
+<!--
+  Generated template for the Perfil page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  
+  <ion-navbar color="primary">
+      <!--ion-buttons left *ngIf="action != 'new'">
+        <button ion-button (click)="dismiss()"><ion-icon name="arrow-back"></ion-icon></button>
+      </ion-buttons-->
+      <ion-title>
+        Perfil
+      </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content scroll="false" class="bg-login">
+
+    <div style="height:50px"></div>
+
+      <img-loader class="avatar" [spinner]="false" useImg [src]="photoURL"></img-loader>
+
+      <div class="btn-edit">
+        <button ion-fab mini (click)="presentOptions($event)"><ion-icon name="camera"></ion-icon></button>
+      
+        <input id='selecao-arquivo' (change)="onChange($event)" type='file' accept="image/*" capture>
+      </div>
+
+      <div style="height:50px"></div>
+    
+<ion-list>
+
+    <ion-item>
+      <ion-icon name="person" item-left></ion-icon>
+      <ion-input type="text" placeholder="Seu nome" required [(ngModel)]="name"></ion-input>
+    </ion-item>
+    <div *ngIf="nameErr" style="color:#ff0000; text-align: center">
+      <p>Por favor, informe um nome.</p>
+    </div>
+
+    <div style="height:25px"></div>
+
+    <ion-item>
+      <ion-icon name='call' item-left></ion-icon>
+      {{phoneNumberFmt}}
+    </ion-item>
+
+
+  </ion-list>
+
+    <div class="button-row" center style="padding:20px;" *ngIf="action != 'edit'">
+      <button ion-button block (click)="loadHome()">Continuar</button>
+    </div>
+          
+
+</ion-content>

@@ -1,0 +1,23 @@
+<ion-header>
+  
+    <ion-navbar color="primary">
+        <ion-buttons left>
+          <button ion-button icon-only (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+        </ion-buttons>
+        <ion-title>
+          {{title}}
+        </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content class="body">
+    <ion-scroll #ionScrollContainer scrollX="true" scrollY="true" zoom="true">
+      <div class="flex-container">
+          <div class="flex-image">
+            <img-loader [spinner]="true" useImg [src]="src"></img-loader>
+          </div>
+      </div>
+    </ion-scroll>  
+  
+  </ion-content>
+  

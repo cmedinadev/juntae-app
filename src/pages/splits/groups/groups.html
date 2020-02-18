@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Grupos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+ <div class="flex-container" *ngIf="!loaded">
+    <ion-spinner></ion-spinner>
+  </div>
+
+ <ion-list *ngIf="loaded">
+      <ion-item-divider color="light"><b>Grupos para Rateio</b></ion-item-divider>
+      <ion-item *ngIf="!dataList || dataList.length == 0">
+        <p>Nenhum grupo cadastrado.</p>
+      </ion-item>
+      <ion-item-sliding *ngFor="let data of dataList" #itemSliding>
+        <button ion-item (click)="navigationToSelectItem(data)">
+          <!--ion-icon hideWhen="ios" name="ios-arrow-forward" item-right></ion-icon-->
+          <h2>{{data.groupName}}</h2>
+          <p class="item-text-wrap"><i>{{ countParticipants(data.participants) }} participante(s)</i></p>
+        </button>
+        <ion-item-options side="right">
+          <button ion-button color="blue-ion" [disabled]="!isUserAdmin" (click)="editGroup(data, itemSliding)"><ion-icon name="create"></ion-icon> Editar</button>
+          <button ion-button color="danger" [disabled]="!isUserAdmin" (click)="removeGroup($event, data, itemSliding)"><ion-icon name="trash"></ion-icon> Excluir</button>
+        </ion-item-options>
+      </ion-item-sliding>
+  </ion-list>
+  <div class="ion-item-spacer"></div>
+
+  <ion-fab bottom right *ngIf="isUserAdmin">
+    <button ion-fab (click)="addGroup()"><ion-icon name="md-add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

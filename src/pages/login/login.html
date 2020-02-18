@@ -1,0 +1,61 @@
+<ion-header>
+  
+  <ion-navbar color="primary">
+      <ion-title>
+        Juntaê
+      </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  
+
+    <div style="height:20px"></div>
+
+    <div *ngIf="!waiting; else verification;">
+      <ion-list>
+          <ion-item>
+            <ion-icon color="primary" name="md-globe" item-left></ion-icon>
+            <ion-select [(ngModel)]="codeCountry" class="select-country">
+              <ion-option *ngFor="let key of listCountry | keys" [value]="key">{{listCountry[key]}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-icon color="primary" name="call" item-left></ion-icon>
+            <ion-input type="tel" maxlength="11" class="input-tel" [(ngModel)]="phone" placeholder="DDD + Telefone"></ion-input>
+          </ion-item>
+          <div style="height:4px"></div>
+      </ion-list>
+
+      <div class="button-row">
+        <button ion-button block [disabled]="(codeCountry != 'BR' && !phone) || (codeCountry == 'BR' && phone?.length < 10)" id="sign-in-button" (click)="registerPhone()">
+            Continuar
+        </button>
+      </div>
+  </div>
+  <ng-template #verification>
+      <h5 text-center>Digite o código recebido por SMS</h5>
+
+      <div class="div-code">
+          <input type="tel" class="input-code" maxlength="6" (keyup)="codeVerificationOnKeyUp($event)" [(ngModel)]="code" />
+      </div>
+      <div>
+        <div class="div-line">
+          <div class="num-line">&nbsp;</div>
+          <div class="num-line">&nbsp;</div>
+          <div class="num-line">&nbsp;</div>
+          <div class="num-line">&nbsp;</div>
+          <div class="num-line">&nbsp;</div>
+          <div class="num-line">&nbsp;</div>
+        </div>
+      </div>
+
+      <p style="text-align: center; padding-top: 20px" (click)="waiting=false">Não recebi o código.</p>
+      
+
+  </ng-template>
+
+          
+
+</ion-content>

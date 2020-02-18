@@ -1,0 +1,39 @@
+page-select-list-item {
+    .input-quantity{
+        text-align: center;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding-top:4px;
+    }
+    .btn-inc{
+        font-size: 1.6em;
+        cursor:hand;
+    }
+    .btn-dec{
+        padding-top:4px;
+        font-size: 1.6em;
+        cursor:hand;
+    }
+    .icon-action{
+        font-size: 1.4em;
+    }
+    .combo{
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width:100%;
+        padding:2px;
+        height:30px;
+        margin-bottom:15px;
+        font-size:1.2em;
+    }
+    .card-add-item{
+        background-color: #f1f1f1;
+        /*border-color: #faebcc;*/
+    }
+
+    .item{
+        padding-top:10px;
+    }
+    
+}
+

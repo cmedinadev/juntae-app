@@ -1,0 +1,60 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Itens - {{evento.eventName}}</ion-title>
+    <ion-buttons right>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+<ion-list>
+    <ion-item-divider color="light"><h2>{{item.listName}}</h2></ion-item-divider>
+      <ion-item *ngIf="dataList && dataList.length == 0">
+        <p>Nenhum item encontrado.</p>
+      </ion-item>
+    <ion-item-sliding *ngFor="let data of dataList">
+      <ion-item *ngIf="item.config?.allowChooseAmount">
+        <ion-label (click)="showAlert(data)">
+          <h2>{{data.itemName}}</h2>
+          <p style="font-style:italic" *ngIf="!item.config.hideChoiceParticip">{{data.usernames}}</p>
+        </ion-label>
+        <div item-right>
+          <div style="display:inline-block; width:22px" *ngIf="data.members && data.members[userId]?.quantity > 0" (click)="decrement(data, $event)">
+              <ion-icon name="ios-remove-circle-outline" color="danger" class="btn-inc"></ion-icon>
+          </div>
+          <div style="width:40px; display:inline-block" class="input-quantity">
+            <span *ngIf="data.members && data.members[userId]?.quantity > 0">{{data.members[userId].quantity}}</span>
+          </div>
+          <div style=" display:inline-block; width:22px">
+            <ion-icon name="ios-add-circle-outline" *ngIf="!data.allowMaxAmount || data.maxAmount >= 1+this.getQuantity(data.members)" color="blue-noon" class="btn-inc" (click)="increment(data, $event)"></ion-icon>
+            <ion-icon name="ios-add-circle-outline" *ngIf="!(!data.allowMaxAmount || data.maxAmount >= 1+this.getQuantity(data.members))" color="gray" class="btn-inc"></ion-icon>
+          </div>            
+        </div>
+      </ion-item>
+      <ion-item *ngIf="!item.config?.allowChooseAmount">
+        <ion-label (click)="showAlert(data, $event)">
+          <h2>{{data.itemName}}</h2>
+          <p style="font-style:italic" *ngIf="!item.config.hideChoiceParticip">{{data.usernames}}</p>
+        </ion-label>
+        <ion-checkbox [ngClass]="isUserAdmin || !item.config?.hideChoicePartic ? 'chkclick':''" (ionChange)="chooseItem(data, $event)" [disabled]="data.allowMaxAmount && (data.maxAmount <= data.quantity && !data.chosen)" [(ngModel)]="data.chosen" [ngClass]="data.indeterminate && !data.chosen ? 'chk-light' : ''" item-end></ion-checkbox>
+      </ion-item>      
+      <ion-item-options side="right">
+        <button ion-button color="blue-ion" [disabled]="!canAddListItem()" (click)="editListItem(data)"><ion-icon name="create"></ion-icon> Editar</button>
+        <button ion-button color="danger" [disabled]="!canAddListItem()" (click)="removeListItem(data)"><ion-icon name="trash"></ion-icon> Excluir</button>
+      </ion-item-options>
+    </ion-item-sliding>
+</ion-list>
+
+<p class="rodape">Arraste o item para a esquerda para ver mais opções.</p>
+
+<div class="ion-item-spacer" *ngIf="canAddListItem()"></div>
+
+  <ion-fab bottom right *ngIf="canAddListItem()">
+    <button ion-fab (click)="addListItem()"><ion-icon name="md-add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>
